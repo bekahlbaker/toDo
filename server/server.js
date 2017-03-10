@@ -36,4 +36,4 @@ app.get('/toDoItems', function(req, res) {
 	res.send(toDoList);
 });
 
-app.listen(8000);
+app.listen(process.env.PORT || 8000);
