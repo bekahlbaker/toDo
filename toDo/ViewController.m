@@ -108,6 +108,8 @@
         if (![self.textField.text isEqualToString:@""]) {
             [self uploadData];
         }
+    } else if ([[self.editDoneBtn titleForState:UIControlStateNormal] isEqualToString:@"Edit"]) {
+        [self.tableView setEditing:YES animated:YES];
     }
     [self updateTextField];
 }
