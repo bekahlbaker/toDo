@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "ToDoCell.h"
 #import "ToDoItem.h"
+#import "HTTPService.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -23,19 +24,43 @@
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.rowHeight = 45;
     
     self.textField.delegate = self;
     
     self.toDoList = [[NSArray alloc]init];
     
-    NSMutableArray *tempArray = [NSMutableArray arrayWithObjects:@"Dishes", @"Trash", @"Laundry", nil];
-    
-    self.toDoList = tempArray;
+    [[HTTPService instance]getToDoItems:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
+        if (dataArray) {
+            
+            NSMutableArray *arr = [[NSMutableArray alloc]init];
+            
+            for (NSDictionary *d in dataArray) {
+                ToDoItem *item = [[ToDoItem alloc]init];
+                item.toDoListItem = [d objectForKey:@"item"];
+                
+                [arr addObject:item];
+            }
+            
+            self.toDoList = arr;
+            
+            [self updateTableData];
+            
+        } else if (errMessage) {
+            //Display alert
+        }
+    }];
+}
+
+-(void) updateTableData {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ToDoCell *cell = (ToDoCell*) [tableView dequeueReusableCellWithIdentifier:@"toDo"];
-    cell.textLabel.text = [self.toDoList objectAtIndex:indexPath.row];
+//    cell.textLabel.text = [self.toDoList objectAtIndex:indexPath.row];
     if (!cell) {
         cell = [[ToDoCell alloc]init];
     }
@@ -45,11 +70,9 @@
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
-//    ToDoItem *item = [self.toDoList objectAtIndex:indexPath.row];
-//    NSLog(@"ITEM %@", item);
-//    ToDoCell *toDoItem = (ToDoCell*)cell;
-//    NSLog(@"CELL %@", toDoItem);
-//    [toDoItem updateUI:item];
+    ToDoItem *item = [self.toDoList objectAtIndex:indexPath.row];
+    ToDoCell *toDoItem = (ToDoCell*)cell;
+    [toDoItem updateUI:item];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
