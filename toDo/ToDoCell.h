@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  ToDoCell.h
 //  toDo
 //
 //  Created by Rebekah Baker on 3/9/17.
@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+@class ToDoItem;
 
-@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
-
-
+@interface ToDoCell : UITableViewCell
+- (void)updateUI:(nonnull ToDoItem*)toDoItem;
 @end
-

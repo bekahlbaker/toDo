@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  ShadowView.h
 //  toDo
 //
 //  Created by Rebekah Baker on 3/9/17.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
-
+@interface ShadowView : UIView
 
 @end
-
