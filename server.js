@@ -14,23 +14,29 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 var toDoList = [
 {
-	id: 1,
 	item: "Do the dishes."
-},
-{
-	id: 2,
-	item: "Take out the trash."
-},
-{
-	id: 3,
-	item: "Do the laundry."
-},
-{
-	id: 4,
-	item: "Vacuum the bedroom."
 }
 ];
 
+
+//POST
+app.post('/toDoItems', function(req, res) {
+	var item = req.body;
+	if (item) {
+		if (item.item) {
+			toDoList.push(item);
+		} else {
+			res.send("You posted invalid data.");
+		}
+	} else {
+		res.send("Your post has no body.");
+	}
+
+	console.log(toDoList);
+	res.send("You successfully posted a item");
+});
+
+//GET
 app.get('/toDoItems', function(req, res) {
 	console.log("GET from server");
 	res.send(toDoList);

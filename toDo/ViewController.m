@@ -14,6 +14,8 @@
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
+@property (weak, nonatomic) IBOutlet UIButton *editDoneBtn;
+- (IBAction)editDoneBtnTapped:(id)sender;
 @property (nonatomic, strong) NSArray *toDoList;
 @end
 
@@ -27,9 +29,14 @@
     self.tableView.rowHeight = 45;
     
     self.textField.delegate = self;
+    self.textField.returnKeyType = UIReturnKeyDone;
     
     self.toDoList = [[NSArray alloc]init];
     
+    [self downloadData];
+}
+
+-(void) downloadData {
     [[HTTPService instance]getToDoItems:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
         if (dataArray) {
             
@@ -89,7 +96,33 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
+    self.textField.text = @"Add a to-do item...";
+    [self.editDoneBtn setTitle:@"Edit" forState:UIControlStateNormal];
     return YES;
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.textField.text = @"";
+    [self.editDoneBtn setTitle:@"Done" forState:UIControlStateNormal];
+}
+
+- (IBAction)editDoneBtnTapped:(id)sender {
+    NSString *btnTitle = [self.editDoneBtn titleForState:UIControlStateNormal];
+    if ([btnTitle  isEqual: @"Edit"]) {
+        NSLog(@"Btn title is Edit");
+    } else if ([btnTitle isEqualToString:@"Done"]) {
+        NSLog(@"Btn tile is Done");
+        [self uploadData];
+        [_textField resignFirstResponder];
+        [self.editDoneBtn setTitle:@"Edit" forState:UIControlStateNormal];
+        self.textField.text = @"Add a to-do item...";
+    }
+}
+
+- (void) uploadData {
+    [[HTTPService instance]postNewToDoItem:self.textField.text completionHandler:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
+        [self downloadData];
+    }];
 }
 
 @end
