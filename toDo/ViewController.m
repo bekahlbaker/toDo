@@ -67,7 +67,6 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ToDoCell *cell = (ToDoCell*) [tableView dequeueReusableCellWithIdentifier:@"toDo"];
-//    cell.textLabel.text = [self.toDoList objectAtIndex:indexPath.row];
     if (!cell) {
         cell = [[ToDoCell alloc]init];
     }
@@ -95,9 +94,7 @@
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    self.textField.text = @"Add a to-do item...";
-    [self.editDoneBtn setTitle:@"Edit" forState:UIControlStateNormal];
+    [self updateTextField];
     return YES;
 }
 
@@ -107,16 +104,18 @@
 }
 
 - (IBAction)editDoneBtnTapped:(id)sender {
-    NSString *btnTitle = [self.editDoneBtn titleForState:UIControlStateNormal];
-    if ([btnTitle  isEqual: @"Edit"]) {
-        NSLog(@"Btn title is Edit");
-    } else if ([btnTitle isEqualToString:@"Done"]) {
-        NSLog(@"Btn tile is Done");
-        [self uploadData];
-        [_textField resignFirstResponder];
-        [self.editDoneBtn setTitle:@"Edit" forState:UIControlStateNormal];
-        self.textField.text = @"Add a to-do item...";
+    if ([[self.editDoneBtn titleForState:UIControlStateNormal] isEqualToString:@"Done"]) {
+        if (![self.textField.text isEqualToString:@""]) {
+            [self uploadData];
+        }
     }
+    [self updateTextField];
+}
+
+- (void) updateTextField {
+    [_textField resignFirstResponder];
+    [self.editDoneBtn setTitle:@"Edit" forState:UIControlStateNormal];
+    self.textField.text = @"Add a to-do item...";
 }
 
 - (void) uploadData {
