@@ -17,7 +17,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *editDoneBtn;
 - (IBAction)editDoneBtnTapped:(id)sender;
 @property (nonatomic, strong) NSArray *toDoList;
+@property (nonatomic, strong) NSArray *todoCompletedList;
 @property (nonatomic, strong) NSMutableArray *tempArray;
+@property(nonatomic, strong) NSMutableArray *tempCompletedArray;
 @end
 
 @implementation ViewController
@@ -33,6 +35,7 @@
     self.textField.returnKeyType = UIReturnKeyDone;
     
     self.toDoList = [[NSArray alloc]init];
+    self.todoCompletedList = [[NSArray alloc]init];
     
     [self downloadData];
     
@@ -43,17 +46,25 @@
 -(void) downloadData {
     [[HTTPService instance]getToDoItems:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
         if (dataArray) {
-            
+//            NSLog(@"%@", dataArray);
             self.tempArray = [[NSMutableArray alloc]init];
+            self.tempCompletedArray = [[NSMutableArray alloc]init];
             
             for (NSDictionary *d in dataArray) {
                 ToDoItem *item = [[ToDoItem alloc]init];
-                item.toDoListItem = [d objectForKey:@"item"];
-                
-                [self.tempArray insertObject:item atIndex:0];
+                item.completed = [[d objectForKey:@"completed"] boolValue];
+                item.toDoListItem = [d objectForKey:@"description"];
+                item.itemID = [[d objectForKey: @"id"] integerValue];
+                if (item.completed == 0) {
+                 [self.tempArray insertObject:item atIndex:0];
+                } else {
+                    [self.tempCompletedArray insertObject:item atIndex:0];
+                }
             }
             
             self.toDoList = self.tempArray;
+            
+            self.todoCompletedList = self.tempCompletedArray;
             
             [self updateTableData];
             
@@ -79,14 +90,13 @@
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    
     ToDoItem *item = [self.toDoList objectAtIndex:indexPath.row];
     ToDoCell *toDoItem = (ToDoCell*)cell;
     [toDoItem updateUI:item];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

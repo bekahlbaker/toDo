@@ -10,4 +10,6 @@
 
 @interface ToDoItem : NSObject
 @property(nonatomic,strong) NSString *toDoListItem;
+@property BOOL completed;
+@property(nonatomic) NSInteger itemID;
 @end

@@ -7,12 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ToDoCell.h"
 
 typedef void (^onComplete)(NSArray * _Nullable dataArray, NSString * _Nullable errMessage);
 
 @interface HTTPService : NSObject
 
-+ (id) instance;
++ (id _Nonnull) instance;
 - (void) getToDoItems: (nullable onComplete)completionHandler;
-- (void) postNewToDoItem:(NSString*)newItem completionHandler:(nullable onComplete)completionHandler;
+- (void) postNewToDoItem:(NSString* _Nonnull )newItem completionHandler:(nullable onComplete)completionHandler;
+- (void) checkItemDone:( NSInteger)itemID completionHandler:(nullable onComplete)completionHandler;
 @end
