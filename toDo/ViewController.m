@@ -14,12 +14,15 @@
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
-@property (weak, nonatomic) IBOutlet UIButton *editDoneBtn;
+//@property (weak, nonatomic) IBOutlet UIButton *editDoneBtn;
 - (IBAction)editDoneBtnTapped:(id)sender;
 @property (nonatomic, strong) NSArray *toDoList;
 @property (nonatomic, strong) NSArray *todoCompletedList;
 @property (nonatomic, strong) NSMutableArray *tempArray;
-@property(nonatomic, strong) NSMutableArray *tempCompletedArray;
+
+@property (weak, nonatomic) IBOutlet UIButton *addBtn;
+- (IBAction)addBtnTapped:(id)sender;
+
 @end
 
 @implementation ViewController
@@ -37,18 +40,23 @@
     self.toDoList = [[NSArray alloc]init];
     self.todoCompletedList = [[NSArray alloc]init];
     
-    [self downloadData];
-    
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressGestureRecognized:)];
     [self.tableView addGestureRecognizer:longPress];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadData:) name:@"downloadData" object:nil];
 }
 
--(void) downloadData {
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadData" object:self];
+}
+
+-(void) downloadData:(NSNotification*)notification {
     [[HTTPService instance]getToDoItems:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
         if (dataArray) {
 //            NSLog(@"%@", dataArray);
             self.tempArray = [[NSMutableArray alloc]init];
-            self.tempCompletedArray = [[NSMutableArray alloc]init];
             
             for (NSDictionary *d in dataArray) {
                 ToDoItem *item = [[ToDoItem alloc]init];
@@ -58,13 +66,11 @@
                 if (item.completed == 0) {
                  [self.tempArray insertObject:item atIndex:0];
                 } else {
-                    [self.tempCompletedArray insertObject:item atIndex:0];
+                    [self.tempArray addObject:item];
                 }
             }
             
             self.toDoList = self.tempArray;
-            
-            self.todoCompletedList = self.tempCompletedArray;
             
             [self updateTableData];
             
@@ -114,29 +120,33 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField {
     self.textField.text = @"";
-    [self.editDoneBtn setTitle:@"Done" forState:UIControlStateNormal];
+    self.addBtn.alpha = 1;
+    [self.addBtn setImage:[UIImage imageNamed:@"Add-shadow"] forState:UIControlStateNormal];
+//    [self.editDoneBtn setTitle:@"Done" forState:UIControlStateNormal];
 }
 
-- (IBAction)editDoneBtnTapped:(id)sender {
-    if ([[self.editDoneBtn titleForState:UIControlStateNormal] isEqualToString:@"Done"]) {
-        if (![self.textField.text isEqualToString:@""]) {
-            [self uploadData];
-        }
-    } else if ([[self.editDoneBtn titleForState:UIControlStateNormal] isEqualToString:@"Edit"]) {
-        [self.tableView setEditing:YES animated:YES];
-    }
-    [self updateTextField];
-}
+//- (IBAction)editDoneBtnTapped:(id)sender {
+//    if ([[self.editDoneBtn titleForState:UIControlStateNormal] isEqualToString:@"Done"]) {
+//        if (![self.textField.text isEqualToString:@""]) {
+//            [self uploadData];
+//        }
+//    } else if ([[self.editDoneBtn titleForState:UIControlStateNormal] isEqualToString:@"Edit"]) {
+////        [self.tableView setEditing:YES animated:YES];
+//    }
+//    [self updateTextField];
+//}
 
 - (void) updateTextField {
     [_textField resignFirstResponder];
-    [self.editDoneBtn setTitle:@"Edit" forState:UIControlStateNormal];
+//    [self.editDoneBtn setTitle:@"Edit" forState:UIControlStateNormal];
     self.textField.text = @"Add a to-do item...";
+//    [self.addBtn setImage:[UIImage imageNamed:@"Add-flat"] forState:UIControlStateNormal];
+    self.addBtn.alpha = 0;
 }
 
 - (void) uploadData {
     [[HTTPService instance]postNewToDoItem:self.textField.text completionHandler:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
-        [self downloadData];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadData" object:self];
     }];
 }
 
@@ -253,4 +263,14 @@
     return snapshot;
 }
 
+- (IBAction)addBtnTapped:(id)sender {
+//    if ([[self.editDoneBtn titleForState:UIControlStateNormal] isEqualToString:@"Done"]) {
+        if (![self.textField.text isEqualToString:@""]) {
+            [self uploadData];
+//        }
+//    } else if ([[self.editDoneBtn titleForState:UIControlStateNormal] isEqualToString:@"Edit"]) {
+        //        [self.tableView setEditing:YES animated:YES];
+    }
+    [self updateTextField];
+}
 @end

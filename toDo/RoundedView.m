@@ -7,6 +7,7 @@
 //
 
 #import "RoundedView.h"
+#import "ToDoItem.h"
 
 @implementation RoundedView
 

@@ -17,4 +17,5 @@ typedef void (^onComplete)(NSArray * _Nullable dataArray, NSString * _Nullable e
 - (void) getToDoItems: (nullable onComplete)completionHandler;
 - (void) postNewToDoItem:(NSString* _Nonnull )newItem completionHandler:(nullable onComplete)completionHandler;
 - (void) checkItemDone:( NSInteger)itemID completionHandler:(nullable onComplete)completionHandler;
+- (void) checkItemNotDone:(NSInteger)itemID completionHandler:(nullable onComplete)completionHandler;
 @end

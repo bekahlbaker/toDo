@@ -9,6 +9,7 @@
 #import "ToDoCell.h"
 #import "ToDoItem.h"
 #import "HTTPService.h"
+#import "RoundedView.h"
 
 @interface ToDoCell()
 @property (weak, nonatomic) IBOutlet UILabel *toDoLbl;
@@ -16,10 +17,12 @@
 @property(nonatomic) NSInteger itemID;
 @property (weak, nonatomic) IBOutlet UIButton *checkBtn;
 - (IBAction)checkBtnTapped:(id)sender;
+@property (weak, nonatomic) IBOutlet RoundedView *backgroundView;
 
 @end
 
 @implementation ToDoCell
+@dynamic backgroundView;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -32,18 +35,28 @@
     self.itemID = toDoItem.itemID;
     
     if (self.completed == 0) {
-      [self.checkBtn setTitle:@"Not Done" forState:UIControlStateNormal];
+        [self.checkBtn setImage:[UIImage imageNamed:@"empty"] forState:UIControlStateNormal];
+        self.backgroundView.backgroundColor = [UIColor whiteColor];
     } else {
-        [self.checkBtn setTitle:@"Done" forState:UIControlStateNormal];
+        [self.checkBtn setImage:[UIImage imageNamed:@"check"] forState:UIControlStateNormal];
+        self.backgroundView.backgroundColor = [UIColor grayColor];
     }
 }
 
+
 - (IBAction)checkBtnTapped:(id)sender {
+    NSLog(@"Btn tapped! %ld", (long)self.checkBtn.tag);
     if (self.completed == 0) {
         [[HTTPService instance]checkItemDone:(self.itemID) completionHandler:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
             NSLog(@"Completed item!");
-
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadData" object:self];
+        }];
+    } else {
+        [[HTTPService instance]checkItemNotDone:(self.itemID) completionHandler:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
+            NSLog(@"Have not completed item!");
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadData" object:self];
         }];
     }
+    
 }
 @end

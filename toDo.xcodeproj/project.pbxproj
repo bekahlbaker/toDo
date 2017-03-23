@@ -18,7 +18,6 @@
 		27A3C0451E71ECCE0078DDB1 /* ToDoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A3C0441E71ECCE0078DDB1 /* ToDoCell.m */; };
 		27A3C0491E721BEF0078DDB1 /* ToDoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A3C0481E721BEF0078DDB1 /* ToDoItem.m */; };
 		27A3C04D1E72F17B0078DDB1 /* HTTPService.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A3C04C1E72F17B0078DDB1 /* HTTPService.m */; };
-		27A3C0501E730F5D0078DDB1 /* ResponsiveTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A3C04F1E730F5C0078DDB1 /* ResponsiveTextField.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,8 +41,6 @@
 		27A3C0481E721BEF0078DDB1 /* ToDoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoItem.m; sourceTree = "<group>"; };
 		27A3C04B1E72F17B0078DDB1 /* HTTPService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPService.h; sourceTree = "<group>"; };
 		27A3C04C1E72F17B0078DDB1 /* HTTPService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPService.m; sourceTree = "<group>"; };
-		27A3C04E1E730F5C0078DDB1 /* ResponsiveTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResponsiveTextField.h; sourceTree = "<group>"; };
-		27A3C04F1E730F5C0078DDB1 /* ResponsiveTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResponsiveTextField.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,8 +114,6 @@
 				27A3C0411E71E5A00078DDB1 /* RoundedView.m */,
 				27A3C0431E71ECCE0078DDB1 /* ToDoCell.h */,
 				27A3C0441E71ECCE0078DDB1 /* ToDoCell.m */,
-				27A3C04E1E730F5C0078DDB1 /* ResponsiveTextField.h */,
-				27A3C04F1E730F5C0078DDB1 /* ResponsiveTextField.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -216,7 +211,6 @@
 				27A3C03F1E71E3E30078DDB1 /* ShadowView.m in Sources */,
 				27A3C04D1E72F17B0078DDB1 /* HTTPService.m in Sources */,
 				27A3C02C1E71D3A50078DDB1 /* ViewController.m in Sources */,
-				27A3C0501E730F5D0078DDB1 /* ResponsiveTextField.m in Sources */,
 				27A3C0491E721BEF0078DDB1 /* ToDoItem.m in Sources */,
 				27A3C0291E71D3A50078DDB1 /* AppDelegate.m in Sources */,
 				27A3C0421E71E5A00078DDB1 /* RoundedView.m in Sources */,
