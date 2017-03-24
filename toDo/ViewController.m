@@ -14,15 +14,15 @@
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
-//@property (weak, nonatomic) IBOutlet UIButton *editDoneBtn;
-- (IBAction)editDoneBtnTapped:(id)sender;
 @property (nonatomic, strong) NSArray *toDoList;
 @property (nonatomic, strong) NSArray *todoCompletedList;
 @property (nonatomic, strong) NSMutableArray *tempArray;
-
+@property (nonatomic, strong) NSMutableArray *tempCompletedArray;
+@property BOOL completedIsHidden;
 @property (weak, nonatomic) IBOutlet UIButton *addBtn;
 - (IBAction)addBtnTapped:(id)sender;
-
+@property (weak, nonatomic) IBOutlet UIButton *showCompletedBtn;
+- (IBAction)showCompletedBtnTapped:(id)sender;
 @end
 
 @implementation ViewController
@@ -49,14 +49,16 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:YES];
     
+    self.completedIsHidden = YES;
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadData" object:self];
 }
 
 -(void) downloadData:(NSNotification*)notification {
     [[HTTPService instance]getToDoItems:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
         if (dataArray) {
-//            NSLog(@"%@", dataArray);
             self.tempArray = [[NSMutableArray alloc]init];
+            self.tempCompletedArray = [[NSMutableArray alloc]init];
             
             for (NSDictionary *d in dataArray) {
                 ToDoItem *item = [[ToDoItem alloc]init];
@@ -66,11 +68,15 @@
                 if (item.completed == 0) {
                  [self.tempArray insertObject:item atIndex:0];
                 } else {
-                    [self.tempArray addObject:item];
+                    [self.tempCompletedArray addObject:item];
                 }
             }
-            
             self.toDoList = self.tempArray;
+            
+            if (self.completedIsHidden == NO) {
+                NSArray *newArray = [self.toDoList arrayByAddingObjectsFromArray:self.tempCompletedArray];
+                self.toDoList = newArray;
+            }
             
             [self updateTableData];
             
@@ -122,25 +128,12 @@
     self.textField.text = @"";
     self.addBtn.alpha = 1;
     [self.addBtn setImage:[UIImage imageNamed:@"Add-shadow"] forState:UIControlStateNormal];
-//    [self.editDoneBtn setTitle:@"Done" forState:UIControlStateNormal];
 }
 
-//- (IBAction)editDoneBtnTapped:(id)sender {
-//    if ([[self.editDoneBtn titleForState:UIControlStateNormal] isEqualToString:@"Done"]) {
-//        if (![self.textField.text isEqualToString:@""]) {
-//            [self uploadData];
-//        }
-//    } else if ([[self.editDoneBtn titleForState:UIControlStateNormal] isEqualToString:@"Edit"]) {
-////        [self.tableView setEditing:YES animated:YES];
-//    }
-//    [self updateTextField];
-//}
 
 - (void) updateTextField {
     [_textField resignFirstResponder];
-//    [self.editDoneBtn setTitle:@"Edit" forState:UIControlStateNormal];
     self.textField.text = @"Add a to-do item...";
-//    [self.addBtn setImage:[UIImage imageNamed:@"Add-flat"] forState:UIControlStateNormal];
     self.addBtn.alpha = 0;
 }
 
@@ -264,13 +257,20 @@
 }
 
 - (IBAction)addBtnTapped:(id)sender {
-//    if ([[self.editDoneBtn titleForState:UIControlStateNormal] isEqualToString:@"Done"]) {
-        if (![self.textField.text isEqualToString:@""]) {
-            [self uploadData];
-//        }
-//    } else if ([[self.editDoneBtn titleForState:UIControlStateNormal] isEqualToString:@"Edit"]) {
-        //        [self.tableView setEditing:YES animated:YES];
+    if (![self.textField.text isEqualToString:@""]) {
+        [self uploadData];
     }
     [self updateTextField];
+}
+- (IBAction)showCompletedBtnTapped:(id)sender {
+    if (self.completedIsHidden == YES) {
+        self.completedIsHidden = NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadData" object:self];
+        [self.showCompletedBtn setTitle:@"Hide Completed" forState:UIControlStateNormal];
+    } else if (self.completedIsHidden == NO) {
+        self.completedIsHidden = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadData" object:self];
+        [self.showCompletedBtn setTitle:@"Show Completed" forState:UIControlStateNormal];
+    }
 }
 @end
