@@ -46,6 +46,29 @@
     }] resume];
 }
 
+- (void) getSingleItem:(NSInteger)itemID :(nullable onCompleteSingle)completionHandler {
+    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:@"%s%s%s%ld", URL_BASE, URL_ITEMS, URL_ID, (long)itemID]];
+    NSURLSession *session = [NSURLSession sharedSession];
+        NSLog(@"%@", url);
+    [[session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (data != nil) {
+            NSError *err;
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&err];
+            
+            if (err == nil) {
+                completionHandler(json, nil);
+            } else {
+                completionHandler(nil, @"Data is corrupt. Try again");
+            }
+        } else {
+            NSLog(@"NetowrkErr: %@", error.debugDescription);
+            completionHandler(nil, @"Problem connecting to server");
+        }
+        
+    }] resume];
+}
+
+
 - (void) postNewToDoItem:(NSString*)newItem completionHandler:(nullable onComplete)completionHandler {
     NSDictionary *item = @{@"description": newItem};
     NSError *error;
@@ -83,10 +106,10 @@
 }
 
 - (void) checkItemDone:(NSInteger)itemID completionHandler:(nullable onComplete)completionHandler {
+
     NSDictionary *item = @{@"completed": @true};
     NSError *error;
-    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:@"%s%s%s%d", URL_BASE, URL_ITEMS, URL_ID, itemID]];
-    NSLog(@"%@", url);
+    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:@"%s%s%s%ld", URL_BASE, URL_ITEMS, URL_ID, (long)itemID]];
     NSURLSession *session = [NSURLSession sharedSession];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     
@@ -121,7 +144,7 @@
 - (void) checkItemNotDone:(NSInteger)itemID completionHandler:(nullable onComplete)completionHandler {
     NSDictionary *item = @{@"completed": @false};
     NSError *error;
-    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:@"%s%s%s%d", URL_BASE, URL_ITEMS, URL_ID, itemID]];
+    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:@"%s%s%s%ld", URL_BASE, URL_ITEMS, URL_ID, (long)itemID]];
     NSLog(@"%@", url);
     NSURLSession *session = [NSURLSession sharedSession];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -134,6 +157,36 @@
     NSData *postData = [NSJSONSerialization dataWithJSONObject:item options:0 error:&error];
     
     [request setHTTPBody:postData];
+    
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (data != nil) {
+            NSError *err;
+            NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&err];
+            
+            if (err == nil) {
+                completionHandler(json, nil);
+            } else {
+                completionHandler(nil, @"Data is corrupt. Try again");
+            }
+        } else {
+            NSLog(@"NetowrkErr: %@", error.debugDescription);
+            completionHandler(nil, @"Problem connecting to server");
+        }
+    }];
+    
+    [postDataTask resume];
+}
+
+- (void) deleteItem:(NSInteger)itemID completionHandler:(nullable onComplete)completionHandler {
+    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:@"%s%s%s%ld", URL_BASE, URL_ITEMS, URL_ID, (long)itemID]];
+    NSLog(@"%@", url);
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    
+    [request setHTTPMethod:@"DELETE"];
     
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (data != nil) {

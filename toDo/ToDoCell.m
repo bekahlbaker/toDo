@@ -10,15 +10,12 @@
 #import "ToDoItem.h"
 #import "HTTPService.h"
 #import "RoundedView.h"
+#import "ViewController.h"
 
 @interface ToDoCell()
 @property (weak, nonatomic) IBOutlet UILabel *toDoLbl;
-@property BOOL completed;
-@property(nonatomic) NSInteger itemID;
-@property (weak, nonatomic) IBOutlet UIButton *checkBtn;
 - (IBAction)checkBtnTapped:(id)sender;
 @property (weak, nonatomic) IBOutlet RoundedView *backgroundView;
-
 @end
 
 @implementation ToDoCell
@@ -30,6 +27,7 @@
 }
 
 - (void)updateUI:(nonnull ToDoItem*)toDoItem {
+    NSLog(@"#3 UPDATING UI");
     self.toDoLbl.text = toDoItem.toDoListItem;
     self.completed = toDoItem.completed;
     self.itemID = toDoItem.itemID;
@@ -45,18 +43,6 @@
 
 
 - (IBAction)checkBtnTapped:(id)sender {
-    NSLog(@"Btn tapped! %ld", (long)self.checkBtn.tag);
-    if (self.completed == 0) {
-        [[HTTPService instance]checkItemDone:(self.itemID) completionHandler:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
-            NSLog(@"Completed item!");
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadData" object:self];
-        }];
-    } else {
-        [[HTTPService instance]checkItemNotDone:(self.itemID) completionHandler:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
-            NSLog(@"Have not completed item!");
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadData" object:self];
-        }];
-    }
-    
+
 }
 @end

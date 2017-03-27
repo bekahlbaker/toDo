@@ -43,18 +43,17 @@
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressGestureRecognized:)];
     [self.tableView addGestureRecognizer:longPress];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadData:) name:@"downloadData" object:nil];
+    
+    self.completedIsHidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:YES];
     
-    self.completedIsHidden = YES;
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadData" object:self];
+    [self downloadData];
 }
 
--(void) downloadData:(NSNotification*)notification {
+-(void) downloadData {
     [[HTTPService instance]getToDoItems:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
         if (dataArray) {
             self.tempArray = [[NSMutableArray alloc]init];
@@ -71,10 +70,11 @@
                     [self.tempCompletedArray addObject:item];
                 }
             }
-            self.toDoList = self.tempArray;
-            
-            if (self.completedIsHidden == NO) {
-                NSArray *newArray = [self.toDoList arrayByAddingObjectsFromArray:self.tempCompletedArray];
+
+            if (self.completedIsHidden == YES) {
+                self.toDoList = self.tempArray;
+            } else if (self.completedIsHidden == NO) {
+                NSArray *newArray = [self.tempArray arrayByAddingObjectsFromArray:self.tempCompletedArray];
                 self.toDoList = newArray;
             }
             
@@ -92,23 +92,78 @@
     });
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ToDoCell *cell = (ToDoCell*) [tableView dequeueReusableCellWithIdentifier:@"toDo"];
+-(void)checkBtnTouched:(UIButton*)sender :(NSNotification*)notification {
+    NSLog(@"Btn touched! %ld", (long)sender.tag);
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
+    ToDoCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    
+    if (cell.completed == 0) {
+        
+        [[HTTPService instance]checkItemDone:(cell.itemID) completionHandler:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
+            NSLog(@"#1 Completed item!");
+            [self downloadDataSingleItem:cell.itemID :sender.tag];
+
+        }];
+    } else {
+        
+        [[HTTPService instance]checkItemNotDone:(cell.itemID) completionHandler:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
+            NSLog(@"#1 Have not completed item!");
+            [self downloadDataSingleItem:cell.itemID :sender.tag];
+
+        }];
+    }
+}
+
+-(void) downloadDataSingleItem:(NSInteger)itemID :(NSInteger)sender {
+    [[HTTPService instance]getSingleItem:itemID :^(NSDictionary * _Nullable dict, NSString * _Nullable errMessage) {
+        if (dict) {
+            self.tempArray = [[NSMutableArray alloc]init];
+            self.tempCompletedArray = [[NSMutableArray alloc]init];
+            NSLog(@"#2 DICTIONARY: %@", dict);
+                ToDoItem *item = [[ToDoItem alloc]init];
+                item.completed = [[dict objectForKey:@"completed"] boolValue];
+                item.toDoListItem = [dict objectForKey:@"description"];
+                item.itemID = [[dict objectForKey: @"id"] integerValue];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sender inSection:0];
+                ToDoCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+
+                [cell updateUI:item];
+
+            });
+            
+        } else if (errMessage) {
+            //Display alert
+        }
+    }];
+}
+
+-(void)reloadRows:(NSInteger)index  {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        ToDoCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        
+        if (self.completedIsHidden == YES) {
+            ToDoItem *item = [self.tempArray objectAtIndex:index];
+            [cell updateUI:item];
+        } else if (self.completedIsHidden == NO) {
+            NSMutableArray *newArray = [[self.tempArray arrayByAddingObjectsFromArray:self.tempCompletedArray] mutableCopy];
+            ToDoItem *item = [newArray objectAtIndex:index];
+            [cell updateUI:item];
+        }
+}
+
+-(ToDoCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    ToDoCell *cell = (ToDoCell*)[tableView dequeueReusableCellWithIdentifier:@"toDo" forIndexPath:indexPath];
     if (!cell) {
         cell = [[ToDoCell alloc]init];
     }
+    ToDoItem *item = [self.toDoList objectAtIndex:indexPath.row];
+    [cell updateUI:item];
+    cell.checkBtn.tag = indexPath.row;
+    [cell.checkBtn addTarget:self action:@selector(checkBtnTouched::) forControlEvents:UIControlEventTouchUpInside];
 
     return cell;
-}
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    ToDoItem *item = [self.toDoList objectAtIndex:indexPath.row];
-    ToDoCell *toDoItem = (ToDoCell*)cell;
-    [toDoItem updateUI:item];
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -117,6 +172,46 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.toDoList.count;
+}
+
+//EDIT and DELETE
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    ToDoItem *item = [self.toDoList objectAtIndex:indexPath.row];
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        UIAlertController * alert = [UIAlertController
+                                     alertControllerWithTitle:@"Are you sure you want to delete this item?"
+                                     message:@"You will not be able to get this back if you delete it."
+                                     preferredStyle:UIAlertControllerStyleAlert];
+        
+        
+        
+        UIAlertAction* yesButton = [UIAlertAction
+                                    actionWithTitle:@"Delete"
+                                    style:UIAlertActionStyleDestructive
+                                    handler:^(UIAlertAction * action) {
+                                        //Handle your yes please button action here
+                                        [[HTTPService instance]deleteItem:item.itemID completionHandler:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
+                                            NSLog(@"Successfully deleted item!");
+                                            [self downloadData];
+                                        }];
+                                    }];
+        
+        UIAlertAction* noButton = [UIAlertAction
+                                   actionWithTitle:@"Cancel"
+                                   style:UIAlertActionStyleCancel
+                                   handler:^(UIAlertAction * action) {
+                                       //Handle no, thanks button
+                                   }];
+        
+        [alert addAction:yesButton];
+        [alert addAction:noButton];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+    
+    } else {
+        NSLog(@"Unhandled editing style! %ld", (long)editingStyle);
+    }
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -139,7 +234,7 @@
 
 - (void) uploadData {
     [[HTTPService instance]postNewToDoItem:self.textField.text completionHandler:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadData" object:self];
+        [self downloadData];
     }];
 }
 
@@ -157,6 +252,7 @@
     
     switch (state) {
         case UIGestureRecognizerStateBegan: {
+            [self.showCompletedBtn setTitle:@"Drag to Reorder" forState:UIControlStateNormal];
             if (indexPath) {
                 sourceIndexPath = indexPath;
                 
@@ -191,6 +287,7 @@
         }
             // More coming soon...
         case UIGestureRecognizerStateChanged: {
+             [self.showCompletedBtn setTitle:@"Drag to Reorder" forState:UIControlStateNormal];
             CGPoint center = snapshot.center;
             center.y = location.y;
             snapshot.center = center;
@@ -199,7 +296,12 @@
             if (indexPath && ![indexPath isEqual:sourceIndexPath]) {
                 
                 // ... update data source.
-                [self.tempArray exchangeObjectAtIndex:indexPath.row withObjectAtIndex:sourceIndexPath.row];
+                if (self.completedIsHidden == YES) {
+                    [self.tempArray exchangeObjectAtIndex:indexPath.row withObjectAtIndex:sourceIndexPath.row];
+                } else if (self.completedIsHidden == NO) {
+                    NSMutableArray *newArray = [[self.tempArray arrayByAddingObjectsFromArray:self.tempCompletedArray] mutableCopy];
+                    [newArray exchangeObjectAtIndex:indexPath.row withObjectAtIndex:sourceIndexPath.row];
+                }
                 
                 // ... move the rows.
                 [self.tableView moveRowAtIndexPath:sourceIndexPath toIndexPath:indexPath];
@@ -212,6 +314,12 @@
             // More coming soon...
         default: {
             // Clean up.
+            
+            if (self.completedIsHidden == YES) {
+                [self.showCompletedBtn setTitle:@"Show Completed" forState:UIControlStateNormal];
+            } else if (self.completedIsHidden == NO) {
+                [self.showCompletedBtn setTitle:@"Hide Completed" forState:UIControlStateNormal];
+            }
             UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:sourceIndexPath];
             cell.hidden = NO;
             cell.alpha = 0.0;
@@ -265,11 +373,11 @@
 - (IBAction)showCompletedBtnTapped:(id)sender {
     if (self.completedIsHidden == YES) {
         self.completedIsHidden = NO;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadData" object:self];
+        [self downloadData];
         [self.showCompletedBtn setTitle:@"Hide Completed" forState:UIControlStateNormal];
     } else if (self.completedIsHidden == NO) {
         self.completedIsHidden = YES;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadData" object:self];
+        [self downloadData];
         [self.showCompletedBtn setTitle:@"Show Completed" forState:UIControlStateNormal];
     }
 }
