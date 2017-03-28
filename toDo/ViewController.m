@@ -223,6 +223,7 @@
                                          [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
                                              textField.text = string;
                                              textField.keyboardType = UIKeyboardTypeDefault;
+                                             textField.autocorrectionType = UITextAutocorrectionTypeYes;
                                          }];
                                          
                                          [self presentViewController:alert animated:YES completion:nil];
@@ -235,6 +236,15 @@
     UITableViewRowAction *button3 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Share" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
                                      {
                                          NSLog(@"Action to perform with Button3!");
+                                         
+                                         NSString *string = cell.toDoLbl.text;
+                                         NSArray *items = @[@"To Do:", string];
+                                         
+                                         UIActivityViewController *controller = [[UIActivityViewController alloc]initWithActivityItems:items applicationActivities:nil];
+                                         
+                                         [self presentViewController:controller animated:YES completion:^{
+                                             NSLog(@"HAS BEEN SHARED");
+                                         }];
                                      }];
     button3.backgroundColor = [UIColor whiteColor];
     
