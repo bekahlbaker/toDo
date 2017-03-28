@@ -39,7 +39,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TnQ-oc-0w5" customClass="RoundedView">
-                                <rect key="frame" x="8" y="111" width="359" height="35"/>
+                                <rect key="frame" x="8" y="83" width="359" height="35"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Add a to-do item..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="82x-3e-LrF">
                                         <rect key="frame" x="8" y="8" width="343" height="20"/>
@@ -71,7 +71,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3J8-NK-0GK">
-                                <rect key="frame" x="0.0" y="162" width="375" height="505"/>
+                                <rect key="frame" x="0.0" y="134" width="375" height="533"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="toDo" rowHeight="50" id="bUu-MZ-NFb" customClass="ToDoCell">
@@ -135,36 +135,23 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="shp-l3-VqE">
-                                <rect key="frame" x="136" y="79" width="103" height="28"/>
-                                <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="13"/>
-                                <state key="normal" title="Show Completed">
-                                    <color key="titleColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="showCompletedBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="P4f-Bt-dl6"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.95686274509803926" green="0.72156862745098038" blue="0.68627450980392157" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="jCf-cY-vSz" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="3xH-5E-dRf"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3J8-NK-0GK" secondAttribute="bottom" id="9bA-Xi-j6L"/>
                             <constraint firstItem="3J8-NK-0GK" firstAttribute="top" secondItem="TnQ-oc-0w5" secondAttribute="bottom" constant="16" id="BnP-tC-ATi"/>
-                            <constraint firstItem="TnQ-oc-0w5" firstAttribute="top" secondItem="shp-l3-VqE" secondAttribute="bottom" constant="4" id="CiV-kO-qq2"/>
                             <constraint firstAttribute="trailing" secondItem="TnQ-oc-0w5" secondAttribute="trailing" constant="8" id="KEE-ap-sfp"/>
-                            <constraint firstItem="shp-l3-VqE" firstAttribute="top" secondItem="jCf-cY-vSz" secondAttribute="bottom" constant="4" id="Of4-pF-bWG"/>
                             <constraint firstAttribute="trailing" secondItem="jCf-cY-vSz" secondAttribute="trailing" id="afn-cZ-GzP"/>
                             <constraint firstItem="jCf-cY-vSz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dCB-ma-WeZ"/>
                             <constraint firstItem="3J8-NK-0GK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="iNn-Mq-foB"/>
-                            <constraint firstItem="shp-l3-VqE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jHK-HV-nUe"/>
                             <constraint firstItem="TnQ-oc-0w5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="8" id="kqY-W2-wV6"/>
+                            <constraint firstItem="TnQ-oc-0w5" firstAttribute="top" secondItem="jCf-cY-vSz" secondAttribute="bottom" constant="8" id="mGY-w7-F6d"/>
                             <constraint firstAttribute="trailing" secondItem="3J8-NK-0GK" secondAttribute="trailing" id="zlR-VR-lit"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="addBtn" destination="VtK-FC-R9J" id="SUS-MK-cX5"/>
-                        <outlet property="showCompletedBtn" destination="shp-l3-VqE" id="9tT-TM-0df"/>
                         <outlet property="tableView" destination="3J8-NK-0GK" id="feO-xJ-4Qa"/>
                         <outlet property="textField" destination="82x-3e-LrF" id="Vgn-tX-zEY"/>
                     </connections>

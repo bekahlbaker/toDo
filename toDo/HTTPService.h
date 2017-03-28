@@ -20,5 +20,6 @@ typedef void (^onCompleteSingle)(NSDictionary * _Nullable dict, NSString * _Null
 - (void) postNewToDoItem:(NSString* _Nonnull )newItem completionHandler:(nullable onComplete)completionHandler;
 - (void) checkItemDone:( NSInteger)itemID completionHandler:(nullable onComplete)completionHandler;
 - (void) checkItemNotDone:(NSInteger)itemID completionHandler:(nullable onComplete)completionHandler;
+- (void) editItemDescription:(NSString*)newDescription :(NSInteger)itemID completionHandler:(nullable onComplete)completionHandler;
 - (void) deleteItem:(NSInteger)itemID completionHandler:(nullable onComplete)completionHandler;
 @end

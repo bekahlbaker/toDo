@@ -13,7 +13,6 @@
 #import "ViewController.h"
 
 @interface ToDoCell()
-@property (weak, nonatomic) IBOutlet UILabel *toDoLbl;
 - (IBAction)checkBtnTapped:(id)sender;
 @property (weak, nonatomic) IBOutlet RoundedView *backgroundView;
 @end
