@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSArray *toDoList;
 @property (nonatomic, strong) NSMutableArray *tempArray;
 @property (weak, nonatomic) IBOutlet UIButton *addBtn;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activitySpinner;
 - (IBAction)addBtnTapped:(id)sender;
 
 @end
@@ -35,11 +36,13 @@
     
     self.toDoList = [[NSArray alloc]init];
     
+    self.addBtn.alpha = 0;
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:YES];
-    
+    [self.activitySpinner startAnimating];
     [self downloadData];
 }
 
@@ -71,6 +74,7 @@
 
 -(void) updateTableData {
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self.activitySpinner stopAnimating];
         [self.tableView reloadData];
     });
 }
@@ -187,7 +191,7 @@
                                         
                                         [self presentViewController:alert animated:YES completion:nil];
                                     }];
-    button.backgroundColor = [UIColor redColor];
+    button.backgroundColor = [UIColor colorWithRed:0.91 green:0.42 blue:0.42 alpha:1.0];
     UITableViewRowAction *button2 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Edit" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
                                      {
                                          NSString *string = cell.toDoLbl.text;
@@ -232,7 +236,7 @@
                                          
                                      }];
     
-    button2.backgroundColor = [UIColor lightGrayColor];
+    button2.backgroundColor = [UIColor colorWithRed:0.69 green:0.85 blue:0.80 alpha:1.0];
     UITableViewRowAction *button3 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Share" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
                                      {
                                          NSLog(@"Action to perform with Button3!");
@@ -246,7 +250,7 @@
                                              NSLog(@"HAS BEEN SHARED");
                                          }];
                                      }];
-    button3.backgroundColor = [UIColor whiteColor];
+    button3.backgroundColor = [UIColor colorWithRed:0.69 green:0.58 blue:0.43 alpha:1.0];
     
     return @[button, button2, button3];
     
@@ -258,15 +262,17 @@
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (![self.textField.text isEqualToString:@""]) {
+        [self uploadData];
+    }
     [self updateTextField];
-    
     return YES;
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField {
     self.textField.text = @"";
     self.addBtn.alpha = 1;
-    [self.addBtn setImage:[UIImage imageNamed:@"Add-shadow"] forState:UIControlStateNormal];
+    [self.addBtn setImage:[UIImage imageNamed:@"Add"] forState:UIControlStateNormal];
 }
 
 

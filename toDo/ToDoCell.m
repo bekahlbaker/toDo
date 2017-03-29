@@ -32,11 +32,11 @@
     self.itemID = toDoItem.itemID;
     
     if (self.completed == 0) {
-        [self.checkBtn setImage:[UIImage imageNamed:@"empty"] forState:UIControlStateNormal];
+        [self.checkBtn setImage:[UIImage imageNamed:@"Check-Empty"] forState:UIControlStateNormal];
         self.backgroundView.backgroundColor = [UIColor whiteColor];
     } else {
-        [self.checkBtn setImage:[UIImage imageNamed:@"check"] forState:UIControlStateNormal];
-        self.backgroundView.backgroundColor = [UIColor grayColor];
+        [self.checkBtn setImage:[UIImage imageNamed:@"Check"] forState:UIControlStateNormal];
+        self.backgroundView.backgroundColor = [UIColor colorWithRed:0.87 green:0.84 blue:0.82 alpha:1.0];
     }
 }
 
