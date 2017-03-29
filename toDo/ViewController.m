@@ -261,12 +261,27 @@
     return YES;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewAutomaticDimension;
+}
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 50.0;
+}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (![self.textField.text isEqualToString:@""]) {
         [self uploadData];
     }
     [self updateTextField];
     return YES;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch * touch = [touches anyObject];
+    if(touch.phase == UITouchPhaseBegan) {
+        [self updateTextField];
+    }
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -282,6 +297,7 @@
     self.addBtn.alpha = 0;
 }
 
+
 - (void) uploadData {
     [[HTTPService instance]postNewToDoItem:self.textField.text completionHandler:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
         [self downloadData];
@@ -289,7 +305,7 @@
 }
 
 - (IBAction)addBtnTapped:(id)sender {
-    if (![self.textField.text isEqualToString:@""]) {
+    if ([self.textField hasText]) {
         [self uploadData];
     }
     [self updateTextField];
