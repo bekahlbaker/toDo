@@ -38,17 +38,45 @@
     
     self.addBtn.alpha = 0;
     
+    [self anonymouslyCreateUserAndLogin];
+}
+
+
+- (void) anonymouslyCreateUserAndLogin {
+    
+    NSString * uuid = [[NSUUID UUID] UUIDString];
+    NSLog(@"UUID: %@", uuid);
+    
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:YES];
     [self.activitySpinner startAnimating];
-    [self downloadData];
+}
+
+-(void) signUpUser {
+    [[HTTPService instance]signUpUser:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
+        if (dataArray) {
+            NSLog(@"SIGNED UP NEW USER: %@", dataArray);
+        }
+    }];
+}
+
+-(void) loginUser {
+    [[HTTPService instance]loginUser:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
+        if (dataArray) {
+            NSLog(@"LOGGED IN USER: %@", dataArray);
+            
+            [self downloadData];
+        }
+    }];
 }
 
 -(void) downloadData {
     [[HTTPService instance]getToDoItems:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
         if (dataArray) {
+            NSLog(@"DATA : %@", dataArray);
             self.tempArray = [[NSMutableArray alloc]init];
             
             
