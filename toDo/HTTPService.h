@@ -15,13 +15,13 @@ typedef void (^onCompleteSingle)(NSDictionary * _Nullable dict, NSString * _Null
 @interface HTTPService : NSObject
 
 + (id _Nonnull) instance;
-- (void) signUpUser:(nullable onComplete)completionHandler;
-- (void) loginUser:(nullable onComplete)completionHandler;
+- (void) signUpUser:(NSString* _Nonnull)uuid :(nullable onComplete)completionHandler;
+- (void) loginUser:(NSString* _Nonnull)uuid :(nullable onComplete)completionHandler;
 - (void) getToDoItems: (nullable onComplete)completionHandler;
 - (void) getSingleItem:(NSInteger)itemID :(nullable onCompleteSingle)completionHandler;
 - (void) postNewToDoItem:(NSString* _Nonnull )newItem completionHandler:(nullable onComplete)completionHandler;
 - (void) checkItemDone:( NSInteger)itemID completionHandler:(nullable onComplete)completionHandler;
 - (void) checkItemNotDone:(NSInteger)itemID completionHandler:(nullable onComplete)completionHandler;
-- (void) editItemDescription:(NSString*)newDescription :(NSInteger)itemID completionHandler:(nullable onComplete)completionHandler;
+- (void) editItemDescription:(NSString* _Nonnull)newDescription :(NSInteger)itemID completionHandler:(nullable onComplete)completionHandler;
 - (void) deleteItem:(NSInteger)itemID completionHandler:(nullable onComplete)completionHandler;
 @end

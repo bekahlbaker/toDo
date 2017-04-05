@@ -12,8 +12,8 @@
 @class ToDoItem;
 
 @interface ToDoCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *toDoLbl;
-@property (weak, nonatomic) IBOutlet UIButton *checkBtn;
+@property (weak, nonatomic) IBOutlet UILabel * _Nullable toDoLbl;
+@property (weak, nonatomic) IBOutlet UIButton * _Nullable checkBtn;
 @property BOOL completed;
 @property(nonatomic) NSInteger itemID;
 - (void)updateUI:(nonnull ToDoItem*)toDoItem;

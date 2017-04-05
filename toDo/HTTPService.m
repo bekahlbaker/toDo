@@ -26,8 +26,8 @@
     return sharedInstance;
 }
 
-- (void) signUpUser:(nullable onComplete)completionHandler {
-    NSDictionary *item = @{@"email": @"self3@example.com", @"password": @"abc123!@"};
+- (void) signUpUser:(NSString*)uuid :(nullable onComplete)completionHandler {
+    NSDictionary *item = @{@"uuid": uuid};
     NSError *error;
     NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:@"%s%s", URL_BASE, URL_USERS]];
     NSURLSession *session = [NSURLSession sharedSession];
@@ -61,8 +61,8 @@
     [postDataTask resume];
 }
 
-- (void) loginUser:(nullable onComplete)completionHandler {
-    NSDictionary *item = @{@"email": @"self3@example.com", @"password": @"abc123!@"};
+- (void) loginUser:(NSString*)uuid :(nullable onComplete)completionHandler {
+    NSDictionary *item = @{@"uuid": uuid};
     NSError *error;
     NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:@"%s%s", URL_BASE, URL_USERS_LOGIN]];
     NSURLSession *session = [NSURLSession sharedSession];

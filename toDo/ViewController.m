@@ -45,42 +45,30 @@
 
 
 - (void) anonymouslyCreateUserAndLogin {
-    
-    if ([Lockbox unarchiveObjectForKey:@"uuid"] != nil) {
-        NSLog(@"ARCHIVED UUID: %@", [Lockbox unarchiveObjectForKey:@"uuid"]);
-    } else {
-        NSString * uuid = [[NSUUID UUID] UUIDString];
-        NSLog(@"UUID: %@", uuid);
-        
-        [Lockbox archiveObject:uuid forKey:@"uuid"];
-        
-        NSLog(@"CREATED AND ARCHIVED UUID: %@", [Lockbox unarchiveObjectForKey:@"uuid"]);
-        
-        //E48D68A1-82EA-4BE1-A7CC-7416A7024F0B
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([Lockbox unarchiveObjectForKey:@"uuid"] != nil) {
+            [[HTTPService instance]loginUser:[Lockbox unarchiveObjectForKey:@"uuid"] :^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
+                NSLog(@"RETURNING USER HAS BEEN LOGGED IN: %@",[Lockbox unarchiveObjectForKey:@"uuid"]);
+                [self downloadData];
+            }];
+        } else {
+            NSString * uuid = [[NSUUID UUID] UUIDString];
+            [Lockbox archiveObject:uuid forKey:@"uuid"];
+            
+            [[HTTPService instance]signUpUser:[Lockbox unarchiveObjectForKey:@"uuid"] :^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
+                NSLog(@"NEW USER HAS BEEN CREATED: %@",[Lockbox unarchiveObjectForKey:@"uuid"]);
+                [[HTTPService instance]loginUser:[Lockbox unarchiveObjectForKey:@"uuid"] :^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
+                    NSLog(@"NEW USER HAS BEEN LOGGED IN: %@",[Lockbox unarchiveObjectForKey:@"uuid"]);
+                    [self downloadData];
+                }];
+            }];
+        }
+    });
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:YES];
     [self.activitySpinner startAnimating];
-}
-
--(void) signUpUser {
-    [[HTTPService instance]signUpUser:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
-        if (dataArray) {
-            NSLog(@"SIGNED UP NEW USER: %@", dataArray);
-        }
-    }];
-}
-
--(void) loginUser {
-    [[HTTPService instance]loginUser:^(NSArray * _Nullable dataArray, NSString * _Nullable errMessage) {
-        if (dataArray) {
-            NSLog(@"LOGGED IN USER: %@", dataArray);
-            
-            [self downloadData];
-        }
-    }];
 }
 
 -(void) downloadData {
