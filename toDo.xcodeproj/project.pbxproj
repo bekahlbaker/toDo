@@ -459,7 +459,7 @@
 				DEVELOPMENT_TEAM = PYE5SX7JJS;
 				INFOPLIST_FILE = toDo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bekahlynnbaker.toDo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bekahlynnbaker.toDoAMinimalistToDoList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "toDo/toDo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -476,7 +476,7 @@
 				DEVELOPMENT_TEAM = PYE5SX7JJS;
 				INFOPLIST_FILE = toDo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bekahlynnbaker.toDo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bekahlynnbaker.toDoAMinimalistToDoList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "toDo/toDo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
