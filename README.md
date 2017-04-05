@@ -10,11 +10,12 @@ Built using a custom-made server with Node.JS and Express and deployed to Heroku
 
 ## Built With
 
-* [Objective C]
-* [XCode]
-* [Node.JS]
-* [Express]
-* [Heroku]
+* Objective C
+* XCode
+* Node.JS
+* Express
+* Heroku
+* Lockbox
 
 ## Versioning
 
