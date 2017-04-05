@@ -10,12 +10,12 @@ Built using a custom-made server with Node.JS and Express and deployed to Heroku
 
 ## Built With
 
-* Objective C
-* XCode
-* Node.JS
-* Express
-* Heroku
-* Lockbox
+* Objective C 
+* [XCode](https://developer.apple.com/xcode/)
+* [Node.JS](https://nodejs.org/en/)
+* [Express](https://expressjs.com/)
+* [Heroku](https://heroku.com/)
+* [Lockbox](https://github.com/granoff/Lockbox)
 
 ## Versioning
 
