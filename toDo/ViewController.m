@@ -10,6 +10,8 @@
 #import "ToDoCell.h"
 #import "ToDoItem.h"
 #import "HTTPService.h"
+#import "Security/Security.h"
+#import "Lockbox/Lockbox.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -44,10 +46,18 @@
 
 - (void) anonymouslyCreateUserAndLogin {
     
-    NSString * uuid = [[NSUUID UUID] UUIDString];
-    NSLog(@"UUID: %@", uuid);
-    
-    
+    if ([Lockbox unarchiveObjectForKey:@"uuid"] != nil) {
+        NSLog(@"ARCHIVED UUID: %@", [Lockbox unarchiveObjectForKey:@"uuid"]);
+    } else {
+        NSString * uuid = [[NSUUID UUID] UUIDString];
+        NSLog(@"UUID: %@", uuid);
+        
+        [Lockbox archiveObject:uuid forKey:@"uuid"];
+        
+        NSLog(@"CREATED AND ARCHIVED UUID: %@", [Lockbox unarchiveObjectForKey:@"uuid"]);
+        
+        //E48D68A1-82EA-4BE1-A7CC-7416A7024F0B
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
