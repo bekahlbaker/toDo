@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		124C05DC86013038FEB77C252641F7AB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4690263E3C2DD3C24DEAC554FFBD486 /* Foundation.framework */; };
 		4007E9BF170D66B8D027CC99C61EB089 /* Pods-toDo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D8145DE4B778CF19BD31887992C30103 /* Pods-toDo-dummy.m */; };
-		60764489C47359ECB424ABDBED09F7C5 /* Lockbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 33552AEA6D667FA42A86CB96767BCFCA /* Lockbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60764489C47359ECB424ABDBED09F7C5 /* Lockbox.h in Headers */ = {isa = PBXBuildFile; fileRef = C659EE93FC72B4858C698DC853B45A20 /* Lockbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD798D51FE3F86206EE7BB0F47580CA2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4690263E3C2DD3C24DEAC554FFBD486 /* Foundation.framework */; };
 		B6751151CBB4BA4DD064BF782BBE4E69 /* Pods-toDo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BB28268B13F4BA12D98894B46C028C92 /* Pods-toDo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C43E5306D13A5B13874FD36CDFCCC82F /* Lockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E0C5197CA0C2627D10CD9147947B60 /* Lockbox.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
-		DC093B0E3B1B2B94746FB6162B395D5D /* Lockbox-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B83A94879A761E60E15E8B979821A1E6 /* Lockbox-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C43E5306D13A5B13874FD36CDFCCC82F /* Lockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F18192EB86669AE0FFAA459AFBDFDA0 /* Lockbox.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		DC093B0E3B1B2B94746FB6162B395D5D /* Lockbox-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B5DFF75DF2563063C54AA81B15AB298B /* Lockbox-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F003B237786BD657CAD35A2CC0785A67 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFD15069DBFFAF7E7CD48183E2D230C /* Security.framework */; };
-		FE0864F1925635757B35D59F30AC4359 /* Lockbox-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 88388055DACEBC0E63E7C59E206E39AB /* Lockbox-dummy.m */; };
+		FE0864F1925635757B35D59F30AC4359 /* Lockbox-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4D90F9964C35BD588E26C271C5BFB2 /* Lockbox-dummy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,22 +35,22 @@
 		1913E871A890C363F11744B9EE1EB7A6 /* Pods-toDo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-toDo.modulemap"; sourceTree = "<group>"; };
 		1D8D6253F72D3DAEA0B2D5CDA337C9E9 /* Lockbox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Lockbox.framework; path = Lockbox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26A85ED39ABFE23E6B38976F8FA5127D /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		32E0C5197CA0C2627D10CD9147947B60 /* Lockbox.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Lockbox.m; sourceTree = "<group>"; };
-		332D39B5865E4BBF55C46EC3A4CC3382 /* Lockbox.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Lockbox.modulemap; sourceTree = "<group>"; };
-		33552AEA6D667FA42A86CB96767BCFCA /* Lockbox.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Lockbox.h; sourceTree = "<group>"; };
-		35AAB1B37CD12D43E214B4967E0C27FB /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		602C9A9447DBE1687D21C6FEAB4EFF5A /* Lockbox-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Lockbox-prefix.pch"; sourceTree = "<group>"; };
+		2C4D90F9964C35BD588E26C271C5BFB2 /* Lockbox-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Lockbox-dummy.m"; sourceTree = "<group>"; };
+		3F839D450EC86A507D0E053336F02568 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		61E081524E6BFC5EE9FC34D7023DC311 /* Lockbox.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Lockbox.xcconfig; sourceTree = "<group>"; };
 		6D691DC18A41EB68753C0036A0E9DDFC /* Pods-toDo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-toDo.release.xcconfig"; sourceTree = "<group>"; };
-		88388055DACEBC0E63E7C59E206E39AB /* Lockbox-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Lockbox-dummy.m"; sourceTree = "<group>"; };
+		723CFB16AAAFE03C3ADDE9323769092F /* Lockbox.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Lockbox.modulemap; sourceTree = "<group>"; };
+		7F18192EB86669AE0FFAA459AFBDFDA0 /* Lockbox.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = Lockbox.m; sourceTree = "<group>"; };
 		91E0AD52EBDFFD8AB3B00844FFF97E60 /* Pods-toDo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-toDo.debug.xcconfig"; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		B0A89D27EBACC2421B0E17EDF5A95536 /* Pods-toDo-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-toDo-resources.sh"; sourceTree = "<group>"; };
 		B4690263E3C2DD3C24DEAC554FFBD486 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		B83A94879A761E60E15E8B979821A1E6 /* Lockbox-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Lockbox-umbrella.h"; sourceTree = "<group>"; };
+		B5DFF75DF2563063C54AA81B15AB298B /* Lockbox-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Lockbox-umbrella.h"; sourceTree = "<group>"; };
 		BB28268B13F4BA12D98894B46C028C92 /* Pods-toDo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-toDo-umbrella.h"; sourceTree = "<group>"; };
+		BE1E55B14B3C73D8237B4B0237D39DBC /* Lockbox-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Lockbox-prefix.pch"; sourceTree = "<group>"; };
+		C659EE93FC72B4858C698DC853B45A20 /* Lockbox.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = Lockbox.h; sourceTree = "<group>"; };
 		CAFD15069DBFFAF7E7CD48183E2D230C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		D8145DE4B778CF19BD31887992C30103 /* Pods-toDo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-toDo-dummy.m"; sourceTree = "<group>"; };
-		E1E993A4970A13571E3A9B00D6C0C766 /* Lockbox.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Lockbox.xcconfig; sourceTree = "<group>"; };
 		E56A0D5A8E642DC42F4CA6045B1BD60A /* Pods-toDo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-toDo-acknowledgements.markdown"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,15 +93,18 @@
 			path = "Target Support Files/Pods-toDo";
 			sourceTree = "<group>";
 		};
-		17B27AC496A594124612C51820B07CB5 /* Lockbox */ = {
+		107AD084EA555B6BF4DB79C9939C36D3 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				33552AEA6D667FA42A86CB96767BCFCA /* Lockbox.h */,
-				32E0C5197CA0C2627D10CD9147947B60 /* Lockbox.m */,
-				913DD6A259624337E0F1C7ABB7FA0C03 /* Support Files */,
+				3F839D450EC86A507D0E053336F02568 /* Info.plist */,
+				723CFB16AAAFE03C3ADDE9323769092F /* Lockbox.modulemap */,
+				61E081524E6BFC5EE9FC34D7023DC311 /* Lockbox.xcconfig */,
+				2C4D90F9964C35BD588E26C271C5BFB2 /* Lockbox-dummy.m */,
+				BE1E55B14B3C73D8237B4B0237D39DBC /* Lockbox-prefix.pch */,
+				B5DFF75DF2563063C54AA81B15AB298B /* Lockbox-umbrella.h */,
 			);
-			name = Lockbox;
-			path = Lockbox;
+			name = "Support Files";
+			path = "../Target Support Files/Lockbox";
 			sourceTree = "<group>";
 		};
 		2E339049816F198EB76DEA4264EF8374 /* iOS */ = {
@@ -113,12 +116,15 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		3A86F781DCCC42B8AE86A590ECDD93D6 /* Pods */ = {
+		3D22B89B8483B46AF49EDE282A37F781 /* Lockbox */ = {
 			isa = PBXGroup;
 			children = (
-				17B27AC496A594124612C51820B07CB5 /* Lockbox */,
+				C659EE93FC72B4858C698DC853B45A20 /* Lockbox.h */,
+				7F18192EB86669AE0FFAA459AFBDFDA0 /* Lockbox.m */,
+				107AD084EA555B6BF4DB79C9939C36D3 /* Support Files */,
 			);
-			name = Pods;
+			name = Lockbox;
+			path = Lockbox;
 			sourceTree = "<group>";
 		};
 		433CD3331B6C3787F473C941B61FC68F /* Frameworks */ = {
@@ -138,29 +144,24 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7B6498A9B0E5D202A6CBD579B89ECC73 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3D22B89B8483B46AF49EDE282A37F781 /* Lockbox */,
+				ECF0853AED1CF02534506EA09C0591AD /* SwiftLint */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				433CD3331B6C3787F473C941B61FC68F /* Frameworks */,
-				3A86F781DCCC42B8AE86A590ECDD93D6 /* Pods */,
+				7B6498A9B0E5D202A6CBD579B89ECC73 /* Pods */,
 				69C416E9EA4A9865A3F803D494DE15A4 /* Products */,
 				E2B293C075AD2CE4F89FDAE490EF546D /* Targets Support Files */,
 			);
-			sourceTree = "<group>";
-		};
-		913DD6A259624337E0F1C7ABB7FA0C03 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				35AAB1B37CD12D43E214B4967E0C27FB /* Info.plist */,
-				332D39B5865E4BBF55C46EC3A4CC3382 /* Lockbox.modulemap */,
-				E1E993A4970A13571E3A9B00D6C0C766 /* Lockbox.xcconfig */,
-				88388055DACEBC0E63E7C59E206E39AB /* Lockbox-dummy.m */,
-				602C9A9447DBE1687D21C6FEAB4EFF5A /* Lockbox-prefix.pch */,
-				B83A94879A761E60E15E8B979821A1E6 /* Lockbox-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Lockbox";
 			sourceTree = "<group>";
 		};
 		E2B293C075AD2CE4F89FDAE490EF546D /* Targets Support Files */ = {
@@ -169,6 +170,14 @@
 				0C1BABCCF46240DBFB33A5B851A47AF6 /* Pods-toDo */,
 			);
 			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		ECF0853AED1CF02534506EA09C0591AD /* SwiftLint */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = SwiftLint;
+			path = SwiftLint;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -363,7 +372,7 @@
 		};
 		7FF1DBEECC173D90BCAA88E35608DAA4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1E993A4970A13571E3A9B00D6C0C766 /* Lockbox.xcconfig */;
+			baseConfigurationReference = 61E081524E6BFC5EE9FC34D7023DC311 /* Lockbox.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -395,7 +404,7 @@
 		};
 		D3A5BFAB88E3A1CA0B6D6FB0154FA9B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1E993A4970A13571E3A9B00D6C0C766 /* Lockbox.xcconfig */;
+			baseConfigurationReference = 61E081524E6BFC5EE9FC34D7023DC311 /* Lockbox.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";

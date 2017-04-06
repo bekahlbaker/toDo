@@ -8,5 +8,6 @@ target 'toDo' do
   # Pods for toDo
 
 	pod 'Lockbox'
+	pod 'SwiftLint'
 
 end
