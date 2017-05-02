@@ -10,4 +10,6 @@ target 'toDo' do
 	pod 'Lockbox'
 	pod 'SwiftLint'
 
+	pod 'Firebase/Core'
+
 end
